@@ -23,12 +23,8 @@
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose" />
 /// <reference types="mongoose/types/inferschematype" />
-import { ICategory } from "./category";
-export interface IProducts {
+export interface ICategory {
     name?: string;
-    price?: number;
-    image?: string;
-    category?: ICategory;
 }
-declare const Product: import("mongoose").Model<IProducts, {}, {}, {}, any>;
-export { Product };
+declare const Category: import("mongoose").Model<ICategory, {}, {}, {}, any>;
+export { Category };

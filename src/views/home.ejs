@@ -212,6 +212,7 @@
                     <img class="img-fluid" src="<%= item.image%>" alt="">
                 </a>
                 <h5 class="font-weight-semi-bold m-0"><%= item.price %> $</h5>
+                <h5 class="font-weight-semi-bold m-0"><%= item.category.name %></h5>
                 <a href="/products/edit/<%= item._id%>" style="color: blue">Edit</a>
                 <a href="/products/delete/<%= item._id%>" style="color: blue">Delete</a>
             </div>

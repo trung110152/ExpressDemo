@@ -23,12 +23,11 @@
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose" />
 /// <reference types="mongoose/types/inferschematype" />
-import { ICategory } from "./category";
-export interface IProducts {
-    name?: string;
-    price?: number;
-    image?: string;
-    category?: ICategory;
+declare class CategoryService {
+    constructor();
+    getAll: () => Promise<(import("mongoose").Document<unknown, any, import("../model/category").ICategory> & import("../model/category").ICategory & {
+        _id: import("mongoose").Types.ObjectId;
+    })[]>;
 }
-declare const Product: import("mongoose").Model<IProducts, {}, {}, {}, any>;
-export { Product };
+declare const _default: CategoryService;
+export default _default;
