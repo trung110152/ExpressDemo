@@ -23,22 +23,14 @@
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose" />
 /// <reference types="mongoose/types/inferschematype" />
-declare class ProductService {
+declare class UserService {
     constructor();
-    getAll: () => Promise<Omit<import("mongoose").Document<unknown, any, import("../model/products").IProducts> & import("../model/products").IProducts & {
-        _id: import("mongoose").Types.ObjectId;
-    }, never>[]>;
-    save: (product: any) => Promise<import("mongoose").Document<unknown, any, import("../model/products").IProducts> & import("../model/products").IProducts & {
-        _id: import("mongoose").Types.ObjectId;
-    }>;
-    update: (id: any, newProduct: any) => Promise<import("mongodb").UpdateResult>;
-    findById: (id: any) => Promise<import("mongoose").Document<unknown, any, import("../model/products").IProducts> & import("../model/products").IProducts & {
-        _id: import("mongoose").Types.ObjectId;
-    }>;
-    findByName: (search: any) => Promise<(import("mongoose").Document<unknown, any, import("../model/products").IProducts> & import("../model/products").IProducts & {
+    getAll: () => Promise<(import("mongoose").Document<unknown, any, import("../model/user").IUser> & import("../model/user").IUser & {
         _id: import("mongoose").Types.ObjectId;
     })[]>;
-    remove: (id: any) => Promise<import("mongodb").DeleteResult>;
+    checkUser: (user: any) => Promise<import("mongoose").Document<unknown, any, import("../model/user").IUser> & import("../model/user").IUser & {
+        _id: import("mongoose").Types.ObjectId;
+    }>;
 }
-declare const _default: ProductService;
+declare const _default: UserService;
 export default _default;

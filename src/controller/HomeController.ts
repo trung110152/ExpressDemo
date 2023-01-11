@@ -36,8 +36,9 @@ class HomeController {
     showFormEdit = async (req: Request, res: Response) => {
         let id = req.params.id;
         let product = await this.productService.findById(id);
+        let categories = await this.categoryService.getAll();
         // console.log(product)
-        res.render('products/edit', {product: product});
+        res.render('products/edit', {product: product,categories: categories});
 
     }
     update = async (req: Request, res: Response) => {
