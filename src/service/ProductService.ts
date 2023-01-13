@@ -30,8 +30,9 @@ class ProductService {
     }
 
     findByName = async (search)=> {
-        let products = await Product.find({name:search});
-        console.log(products)
+        // console.log(search)
+        let products = await Product.find({name:{$regex:`(.*)${search.search}(.*)`}});
+        // console.log(products)
         if(!products){
             return null;
         }

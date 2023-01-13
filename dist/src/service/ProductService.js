@@ -25,8 +25,7 @@ class ProductService {
             return product;
         };
         this.findByName = async (search) => {
-            let products = await products_1.Product.find({ name: search });
-            console.log(products);
+            let products = await products_1.Product.find({ name: { $regex: `(.*)${search.search}(.*)` } });
             if (!products) {
                 return null;
             }
