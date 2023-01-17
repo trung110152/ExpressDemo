@@ -4,11 +4,12 @@ import bodyParser from "body-parser";
 import fileUpload from 'express-fileupload';
 import  mongoose from "mongoose";
 import session from "express-session";
+import {AppDataSource} from "./src/data-source";
 
 
 const app = express();
-mongoose.connect('mongodb://127.0.0.1:27017/demo_dbC09').then(()=>{
-    console.log('Connect db success')
+AppDataSource.initialize().then(()=>{
+    console.log('Connect database success!!!')
 })
 mongoose.set('strictQuery', true);
 app.set('views', './src/views');

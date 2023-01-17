@@ -1,19 +1,17 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const user_1 = require("../model/user");
+const data_source_1 = require("../data-source");
 class UserService {
     constructor() {
-        this.getAll = async () => {
-            let users = await user_1.User.find();
-            return users;
-        };
         this.checkUser = async (user) => {
-            let userCheck = await user_1.User.findOne({ username: user.username, password: user.password });
+            let userCheck = await this.userRepository.findOneBy({ username: user.username, password: user.password });
             if (!userCheck) {
                 return null;
             }
             return userCheck;
         };
+        this.userRepository = data_source_1.AppDataSource.getRepository(user_1.User);
     }
 }
 exports.default = new UserService();

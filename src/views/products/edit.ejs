@@ -157,7 +157,7 @@
         <div class="col-lg-7 mb-5">
             <div class="contact-form">
                 <div id="success"></div>
-                <form action="/products/edit/<%= product._id%>" method="post" enctype="multipart/form-data" ><%#sử dụng multipart/form-data khi biểu mẫu của bạn bao gồm bất kỳ <input type="file">yếu tố nào%>
+                <form action="/products/edit/<%= product.id%>" method="post" enctype="multipart/form-data" ><%#sử dụng multipart/form-data khi biểu mẫu của bạn bao gồm bất kỳ <input type="file">yếu tố nào%>
                     <div class="control-group">
                         <input type="text" class="form-control" name="name" placeholder="Name" value="<%= product.name%>"
                                required="required" data-validation-required-message="Please enter your name" />
@@ -177,7 +177,7 @@
                     <div class="control-group">
                         <select name="category">
                             <% categories.map(item=> {%>
-                                <option value="<%= item._id%>"><%= item.name%></option>
+                                <option value="<%= item.id%>"><%= item.name%></option>
                             <%})%>
                         </select>
                         <p class="help-block text-danger"></p>

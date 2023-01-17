@@ -8,10 +8,10 @@ class UserController {
         this.userService = userService;
     }
 
-    showFormLogin = async (req: Request, res: Response) => {
-        await userService.getAll();
-        res.render('user/login')// read file
-    }
+    // showFormLogin = async (req: Request, res: Response) => {
+    //     await userService.getAll();
+    //     res.render('user/login')// read file
+    // }
 
     login = async (req: Request, res: Response)=>{
         let user = await userService.checkUser(req.body);

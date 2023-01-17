@@ -12,6 +12,7 @@ class HomeController {
 
     showHome = async (req: Request, res: Response) => {
         let products = await productService.getAll();
+        // console.log(products)
         res.render('home', {products: products})
     }
 
@@ -66,12 +67,12 @@ class HomeController {
         res.redirect(301, '/home');
 
     }
-    search = async (req: Request, res: Response) => {
-        let search = req.body;
-        // console.log(search)
-        let products = await productService.findByName(search);
-        res.render('home', {products: products})
-    }
+    // search = async (req: Request, res: Response) => {
+    //     let search = req.body;
+    //     // console.log(search)
+    //     let products = await productService.findByName(search);
+    //     res.render('home', {products: products})
+    // }
 }
 
 export default new HomeController();

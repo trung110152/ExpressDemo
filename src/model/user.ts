@@ -1,14 +1,11 @@
-import {model, Schema} from "mongoose";
-export interface IUser {
-    username ?: string;
-    password?: string
+import {Column, Entity, PrimaryGeneratedColumn} from "typeorm";
 
+@Entity()
+export class User {
+    @PrimaryGeneratedColumn()
+    id: number;
+    @Column()
+    username: string
+    @Column()
+    password: string
 }
-
-const UserSchema = new Schema<IUser>({
-    username: String,
-    password: String
-})
-
-const User = model<IUser>('User', UserSchema );
-export {User}

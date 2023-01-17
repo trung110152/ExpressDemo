@@ -1,21 +1,15 @@
-import {model, Schema} from "mongoose";
-import {ICategory} from "./category";
- export interface IProducts{
-    name ?: string;
-    price ?: number;
-    image ?: string;
-    category?: ICategory;
+import {Column, Entity, PrimaryGeneratedColumn} from "typeorm";
+
+@Entity()
+export class Product{
+    @PrimaryGeneratedColumn()
+    id: number;
+    @Column({type: "varchar", length: 255})
+    name: string
+    @Column({type: "int"})
+    price: string
+    @Column({type: "text"})
+    image: string
+    @Column()
+    category: number
 }
-
-const ProductSchema = new Schema<IProducts>({
-    name: String,
-    price: Number,
-    image: String,
-    category: {
-        type: String,
-        ref: 'Category'
-    }
-})
-
-const Product = model<IProducts>('Product', ProductSchema);
-export {Product}
