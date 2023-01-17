@@ -6,6 +6,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const UserService_1 = __importDefault(require("../service/UserService"));
 class UserController {
     constructor() {
+        this.showFormLogin = async (req, res) => {
+            await UserService_1.default.getAll();
+            res.render('user/login');
+        };
         this.login = async (req, res) => {
             let user = await UserService_1.default.checkUser(req.body);
             if (!user) {
@@ -15,6 +19,19 @@ class UserController {
                 req.session.User = user;
                 res.redirect(301, '/home');
             }
+        };
+        this.logout = async (req, res) => {
+            req.session.destroy((err) => {
+                return res.redirect('/users/login');
+            });
+        };
+        this.formSignup = async (req, res) => {
+            res.render('user/signup');
+        };
+        this.signup = async (req, res) => {
+            let user = req.body;
+            await UserService_1.default.save(user);
+            res.redirect(301, '/home');
         };
         this.userService = UserService_1.default;
     }

@@ -8,4 +8,6 @@ export class User {
     username: string
     @Column()
     password: string
+    @Column({default: 'member'})
+    role: string
 }

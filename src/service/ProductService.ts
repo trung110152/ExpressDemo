@@ -8,12 +8,14 @@ class ProductService {
     }
 
     getAll = async () => {
-        let sql ='select p.id, p.name, p.price, p.image, c.id as idCategory, c.name as nameCategory from product p join category c on p.id = c.id'
+        let sql ='select p.id, p.name, p.price, p.image, c.id as idCategory, c.name as nameCategory from product p join category c on p.category = c.id'
         let products = await this.productRepository.query(sql);
+        // console.log(products)
         return products;
     }
 
     save = async (product) => {// product ko id
+        // console.log(product)
        return  this.productRepository.save(product);
     }
 
@@ -33,15 +35,16 @@ class ProductService {
         return product;
     }
 
-    // findByName = async (search)=> {
-    //     // console.log(search)
-    //     let products = await Product.find({name:{$regex:`(.*)${search.search}(.*)`}});
-    //     // console.log(products)
-    //     if(!products){
-    //         return null;
-    //     }
-    //     return products;
-    // }
+    findByName = async (search)=> {
+        // console.log(search)
+        let sql =`select p.id, p.name, p.price, p.image, c.id as idCategory, c.name as nameCategory from product p join category c on p.id = c.id where p.name like '%${search.search}%'`
+        let products = await this.productRepository.query(sql);
+        // console.log(products)
+        if(!products){
+            return null;
+        }
+        return products;
+    }
 
 
     remove = async (id)=> {

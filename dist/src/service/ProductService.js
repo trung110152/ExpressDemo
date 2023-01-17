@@ -5,7 +5,7 @@ const data_source_1 = require("../data-source");
 class ProductService {
     constructor() {
         this.getAll = async () => {
-            let sql = 'select p.id, p.name, p.price, p.image, c.id as idCategory, c.name as nameCategory from product p join category c on p.id = c.id';
+            let sql = 'select p.id, p.name, p.price, p.image, c.id as idCategory, c.name as nameCategory from product p join category c on p.category = c.id';
             let products = await this.productRepository.query(sql);
             return products;
         };
@@ -25,6 +25,14 @@ class ProductService {
                 return null;
             }
             return product;
+        };
+        this.findByName = async (search) => {
+            let sql = `select p.id, p.name, p.price, p.image, c.id as idCategory, c.name as nameCategory from product p join category c on p.id = c.id where p.name like '%${search.search}%'`;
+            let products = await this.productRepository.query(sql);
+            if (!products) {
+                return null;
+            }
+            return products;
         };
         this.remove = async (id) => {
             let product = await this.productRepository.findOneBy({ id: id });

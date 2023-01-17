@@ -55,6 +55,11 @@ class HomeController {
             await this.productService.remove(id);
             res.redirect(301, '/home');
         };
+        this.search = async (req, res) => {
+            let search = req.body;
+            let products = await ProductService_1.default.findByName(search);
+            res.render('home', { products: products });
+        };
         this.productService = ProductService_1.default;
         this.categoryService = CategoryService_1.default;
     }

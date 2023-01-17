@@ -8,10 +8,10 @@ class UserService {
         this.userRepository = AppDataSource.getRepository(User)
     }
 
-    // getAll = async () => {
-    //     let users = await User.find();
-    //     return users;
-    // }
+    getAll = async () => {
+        let users = await this.userRepository.find();
+        return users;
+    }
 
     checkUser = async (user)=> {
         let userCheck = await this.userRepository.findOneBy({username : user.username, password: user.password} )
@@ -19,6 +19,11 @@ class UserService {
             return null;
         }
         return userCheck;
+    }
+
+    save = async (user) => {
+        // console.log(user)
+        return  this.userRepository.save(user);
     }
 }
 
