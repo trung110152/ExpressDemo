@@ -19,10 +19,6 @@ __decorate([
 ], Cart.prototype, "id", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
-    __metadata("design:type", String)
-], Cart.prototype, "status", void 0);
-__decorate([
-    (0, typeorm_1.Column)(),
     __metadata("design:type", Number)
 ], Cart.prototype, "quantity", void 0);
 __decorate([
@@ -32,7 +28,7 @@ __decorate([
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", Number)
-], Cart.prototype, "user", void 0);
+], Cart.prototype, "oder", void 0);
 Cart = __decorate([
     (0, typeorm_1.Entity)()
 ], Cart);

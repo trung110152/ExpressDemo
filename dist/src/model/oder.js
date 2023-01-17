@@ -23,14 +23,6 @@ __decorate([
 ], Order.prototype, "costumer", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
-    __metadata("design:type", Number)
-], Order.prototype, "products", void 0);
-__decorate([
-    (0, typeorm_1.Column)(),
-    __metadata("design:type", Number)
-], Order.prototype, "quantity", void 0);
-__decorate([
-    (0, typeorm_1.Column)(),
     __metadata("design:type", String)
 ], Order.prototype, "address", void 0);
 __decorate([
@@ -47,8 +39,8 @@ __decorate([
 ], Order.prototype, "status", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
-    __metadata("design:type", String)
-], Order.prototype, "note", void 0);
+    __metadata("design:type", Number)
+], Order.prototype, "total", void 0);
 Order = __decorate([
     (0, typeorm_1.Entity)()
 ], Order);

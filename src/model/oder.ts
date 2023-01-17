@@ -7,10 +7,6 @@ export class Order {
     @Column()
     costumer: number
     @Column()
-    products: number
-    @Column()
-    quantity: number
-    @Column()
     address: string
     @Column()
     phone: string
@@ -19,5 +15,5 @@ export class Order {
     @Column()
     status: string
     @Column()
-    note: string
+    total: number
 }
