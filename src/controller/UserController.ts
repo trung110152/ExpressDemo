@@ -1,11 +1,14 @@
 import {Request, Response} from "express";
 import userService from "../service/UserService";
+import orderService from "../service/OrderService";
 
 class UserController {
     private userService;
+    private orderService;
 
     constructor() {
         this.userService = userService;
+        this.orderService =orderService;
     }
 
     showFormLogin = async (req: Request, res: Response) => {
@@ -20,7 +23,8 @@ class UserController {
             res.redirect(301,'/users/login')
         } else {
             // @ts-ignore
-            req.session.User = user
+            req.session.User = user;
+            await orderService.orderLoad();
             res.redirect(301,'/home')
         }
     }

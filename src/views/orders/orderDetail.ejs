@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <%- include('./partial/style') %>
+    <%- include('../partial/style') %>
 </head>
 
 <body>
@@ -209,33 +209,14 @@
 
 
 <!-- Categories Start -->
-<div class="container-fluid pt-5">
-    <div class="row px-xl-5 pb-3">
-        <% products.map(item =>  { %>
-            <div class="col-lg-4 col-md-6 pb-1">
-                <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
-                    <p class="text-right"><%= item.name %></p>
-                    <a href="" class="cat-img position-relative overflow-hidden mb-3">
-                        <img class="img-fluid" src="<%= item.image %>" alt="">
-                    </a>
-                    <h5 class="font-weight-semi-bold m-0"><%= item.price %> $</h5>
-                    <h5 class="font-weight-semi-bold m-0"><%= item.nameCategory %></h5>
-                    <div>
-                        <a href="/products/edit/<%= item.id %>">
-                            <button style="color: blue">Edit</button>
-                        </a>
-                        <a href="/products/delete/<%= item.id %>">
-                            <button style="color: red">Remove</button>
-                        </a>
-                        <a href="/orders/showOrderDetail/<%= item.id %>">
-                            <button style="color: black">Buy</button>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        <% }) %>
-    </div>
-</div>
+<form action="/orders/orderDetail" method="post">
+    <input type="text" name="idProduct" value="<%= product.id %>">
+    <input type="text" name="idOrder" value="<%= idOrder %>">
+    <input type="text"  value="<%= product.name %>">
+    <input type="text"  value="<%= product.price %>">
+    <input type="text" name="quantity" value="">
+    <button type="submit">Done</button>
+</form>
 <!-- Categories End -->
 
 
@@ -769,6 +750,6 @@
 <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
 
 </body>
-<%- include('./partial/js') %>
+<%- include('../partial/js') %>
 
 </html>

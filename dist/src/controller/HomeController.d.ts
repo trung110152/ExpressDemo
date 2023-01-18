@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 declare class HomeController {
     private productService;
     private categoryService;
+    private orderService;
     constructor();
     showHome: (req: Request, res: Response) => Promise<void>;
     showFormCreate: (req: Request, res: Response) => Promise<void>;

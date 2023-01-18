@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const ProductService_1 = __importDefault(require("../service/ProductService"));
 const CategoryService_1 = __importDefault(require("../service/CategoryService"));
+const OrderService_1 = __importDefault(require("../service/OrderService"));
 class HomeController {
     constructor() {
         this.showHome = async (req, res) => {
@@ -62,6 +63,7 @@ class HomeController {
         };
         this.productService = ProductService_1.default;
         this.categoryService = CategoryService_1.default;
+        this.orderService = OrderService_1.default;
     }
 }
 exports.default = new HomeController();

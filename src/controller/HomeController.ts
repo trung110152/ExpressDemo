@@ -1,13 +1,17 @@
 import {Request, Response} from "express";
 import productService from "../service/ProductService";
 import categoryService from "../service/CategoryService";
+import orderService from "../service/OrderService";
 class HomeController {
     private productService;
     private categoryService;
+    private orderService;
 
     constructor() {
         this.productService = productService;
         this.categoryService = categoryService;
+        this.orderService = orderService;
+
     }
 
     showHome = async (req: Request, res: Response) => {

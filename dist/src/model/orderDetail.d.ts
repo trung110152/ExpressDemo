@@ -1,6 +1,6 @@
-export declare class Cart {
+export declare class OrderDetail {
     id: number;
     quantity: number;
     product: number;
-    oder: number;
+    order: number;
 }

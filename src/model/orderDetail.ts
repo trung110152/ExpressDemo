@@ -1,7 +1,7 @@
 import {Column, Entity, PrimaryGeneratedColumn} from "typeorm";
 
 @Entity()
-export class Cart {
+export class OrderDetail {
     @PrimaryGeneratedColumn()
     id: number;
     @Column()
@@ -9,5 +9,5 @@ export class Cart {
     @Column()
     product: number
     @Column()
-    oder: number
+    order: number
 }
