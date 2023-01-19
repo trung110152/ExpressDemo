@@ -10,7 +10,8 @@ class HomeController {
     constructor() {
         this.showHome = async (req, res) => {
             let products = await ProductService_1.default.getAll();
-            res.render('home', { products: products });
+            let order = await OrderService_1.default.findByStatus();
+            res.render('home', { products: products, idOrder: order.id });
         };
         this.showFormCreate = async (req, res) => {
             let categories = await this.categoryService.getAll();

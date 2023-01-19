@@ -17,7 +17,8 @@ class HomeController {
     showHome = async (req: Request, res: Response) => {
         let products = await productService.getAll();
         // console.log(products)
-        res.render('home', {products: products})
+        let order = await orderService.findByStatus();
+        res.render('home', {products: products, idOrder: order.id})
     }
 
     showFormCreate = async (req: Request, res: Response) => {

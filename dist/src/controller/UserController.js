@@ -23,6 +23,7 @@ class UserController {
             }
         };
         this.logout = async (req, res) => {
+            await OrderService_1.default.updateOrderStatus();
             req.session.destroy((err) => {
                 return res.redirect('/users/login');
             });

@@ -9,4 +9,6 @@ const OrderController_1 = __importDefault(require("../controller/OrderController
 exports.orderRouter = (0, express_1.Router)();
 exports.orderRouter.get('/showOrderDetail/:id', OrderController_1.default.showOrderDetail);
 exports.orderRouter.post('/orderDetail', OrderController_1.default.orderDetail);
+exports.orderRouter.get('/showOrder/:id', OrderController_1.default.showOrder);
+exports.orderRouter.post('/showOrderList', OrderController_1.default.showOrderList);
 //# sourceMappingURL=orderRouter.js.map

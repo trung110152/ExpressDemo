@@ -15,7 +15,18 @@ class OrderController {
         };
         this.orderDetail = async (req, res) => {
             let orderDetail = req.body;
+            await this.orderService.saveOrderDetail(orderDetail);
             res.redirect('/home');
+        };
+        this.showOrder = async (req, res) => {
+            let order = await OrderService_1.default.findByStatus();
+            let orderDetail = await OrderService_1.default.findByOrderId(order.id);
+            res.render('orders/showOrder', { orderDetail: orderDetail });
+        };
+        this.showOrderList = async (req, res) => {
+            await OrderService_1.default.updateOrderStatus();
+            await OrderService_1.default.orderLoad();
+            res.render('orders/showOrderlist');
         };
         this.orderService = OrderService_1.default;
         this.productService = ProductService_1.default;

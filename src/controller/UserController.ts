@@ -30,6 +30,7 @@ class UserController {
     }
 
     logout = async (req: Request, res: Response) => {
+        await orderService.updateOrderStatus();
         // @ts-ignore
         req.session.destroy((err)=>{
             return  res.redirect('/users/login')

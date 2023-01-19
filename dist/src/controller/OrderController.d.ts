@@ -5,6 +5,8 @@ declare class OrderController {
     constructor();
     showOrderDetail: (req: Request, res: Response) => Promise<void>;
     orderDetail: (req: Request, res: Response) => Promise<void>;
+    showOrder: (req: Request, res: Response) => Promise<void>;
+    showOrderList: (req: Request, res: Response) => Promise<void>;
 }
 declare const _default: OrderController;
 export default _default;

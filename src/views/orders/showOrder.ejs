@@ -209,14 +209,40 @@
 
 
 <!-- Categories Start -->
-<form action="/orders/orderDetail" method="post">
-    <input type="text" name="idProduct" value="<%= product.id %>"><br>
-    <input type="text" name="idOrder" value="<%= idOrder %>"><br>
-    <input type="text"  value="<%= product.name %>"><br>
-    <input type="text"  value="<%= product.price %>"><br>
-    <input type="text" name="quantity" value=""><br>
+<form action="/orders/showOrderList" method="post">
+
+        <table border="1" width="100%">
+            <tr>
+                <td>STT</td>
+                <td>Product name</td>
+                <td>Price</td>
+                <td>Quantity</td>
+            </tr>
+
+            <% orderDetail.map( (item, index)=>{ %>
+                <tr>
+                    <td><%= index + 1%></td>
+                    <td><%= item.name %></td>
+                    <td><%= item.price %></td>
+                    <td><%= item.quantity %></td>
+                </tr>
+            <% }) %>
+        </table>
+    <hr>
+    <p>ID order</p>
+    <input type="text" name="id" value="<%= orderDetail[0].order %>"><br>
+    <input type="text" name="status" value="buy"><br>
+    <p>Full name</p>
+    <input type="text" name="costumer" placeholder="Costumer"><br>
+    <p>Address</p>
+    <input type="text" name="address" placeholder="Address"><br>
+    <p>Phone number</p>
+    <input type="text" name="phone" placeholder="Phone number"><br>
+    <p>Date</p>
+    <input type="text" name="orderDate" placeholder="Date"><br>
+    <p>Total</p>
+    <input type="text" name="total" placeholder="total"><br>
     <button type="submit">Done</button>
-    <br>
 </form>
 <!-- Categories End -->
 
