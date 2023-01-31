@@ -15,7 +15,7 @@ function showList() {
             <td>${item.id}</td>
             <td>${item.name}</td>
             <td>${item.price}</td>
-            <td>${item.image}</td>
+            <td><img src="${item.image}" alt=""></td>
             <td>${item.nameCategory}</td>
             <td><button onclick="remove(${item.id})">Delete</button></td>
             <td><button onclick="showFormEdit(${item.id})">Edit</button></td>
@@ -50,7 +50,8 @@ function getCategoriesCreate() {
 function showFormAdd() {
     $('#body').html(` <input type="text" id = "name" placeholder="name"> 
              <input type="number" id = "price" placeholder="price"> 
-             <input type="text" id = "image" placeholder="image">
+             <input type="file" id="fileButton" onchange="uploadImage(event)">
+            <div id="imgDiv"></div>
              <select id="categoryAdd">
              <option selected>Category</option>
              </select>
@@ -81,7 +82,7 @@ function showHome() {
 function add() {
     let name = $('#name').val();
     let price = $('#price').val();
-    let image = $('#image').val();
+    let image = localStorage.getItem('image')
     let category = $('#categoryAdd').val();
     let product = {
         name: name,
@@ -103,7 +104,7 @@ function add() {
     })
 }
 
-function remove(id){
+function remove(id) {
     $.ajax({
         type: 'DELETE',
         url: `http://localhost:3000/products/${id}`,
@@ -116,7 +117,7 @@ function remove(id){
     })
 }
 
-function showFormEdit(id){
+function showFormEdit(id) {
     $.ajax({
         type: 'GET',
         url: `http://localhost:3000/products/findById/${id}`,
@@ -127,7 +128,9 @@ function showFormEdit(id){
             $('#body').html(`
 <input type="text" id="name" placeholder="Name" value="${product.name}">
         <input type="text" id="price" placeholder="Price" value="${product.price}">
-        <input type="text" id="image" placeholder="Image" value="${product.image}">
+     
+       <input type="file" id="fileButton" onchange="uploadImage(event)">
+        <div id="imgDiv"><img src="${product.image}" alt=""></div>
         <input type="text" id="category" placeholder="Category" value="${product.category}">
         <button onclick="edit(${id})">Edit</button>`)
         }
@@ -138,7 +141,7 @@ function showFormEdit(id){
 function edit(id) {
     let name = $('#name').val();
     let price = $('#price').val();
-    let image = $('#image').val();
+    let image = localStorage.getItem('image')
     let category = $('#category').val();
     let product = {
         name: name,
@@ -158,4 +161,34 @@ function edit(id) {
             showHome()
         }
     })
+}
+function uploadImage(e) {
+    let fbBucketName = 'images';
+    let uploader = document.getElementById('uploader');
+    let file = e.target.files[0];
+    let storageRef = firebase.storage().ref(`${fbBucketName}/${file.name}`);
+    let uploadTask = storageRef.put(file);
+    uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
+        function (snapshot) {
+            uploader.value = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            switch (snapshot.state) {
+                case firebase.storage.TaskState.PAUSED:
+                    break;
+                case firebase.storage.TaskState.RUNNING:
+                    break;
+            }
+        }, function (error) {
+            switch (error.code) {
+                case 'storage/unauthorized':
+                    break;
+                case 'storage/canceled':
+                    break;
+                case 'storage/unknown':
+                    break;
+            }
+        }, function () {
+            let downloadURL = uploadTask.snapshot.downloadURL;
+            document.getElementById('imgDiv').innerHTML = `<img src="${downloadURL}" alt="">`
+            localStorage.setItem('image', downloadURL);
+        });
 }
