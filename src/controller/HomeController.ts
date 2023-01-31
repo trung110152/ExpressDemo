@@ -58,6 +58,17 @@ class HomeController {
         let products = await productService.findByName(search);
         res.render('home', {products: products})
     }
+
+
+    getCategories = async (req: Request, res: Response) => {
+        try{
+            let categories = await categoryService.getAll();
+            // console.log(categories)
+            res.status(200).json(categories)
+        } catch (e) {
+            res.status(500).json(e.message)
+        }
+    }
 }
 
 export default new HomeController();

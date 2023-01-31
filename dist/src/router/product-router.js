@@ -12,4 +12,5 @@ exports.productRouter.post('/', HomeController_1.default.create);
 exports.productRouter.put('/:id', HomeController_1.default.update);
 exports.productRouter.delete('/:id', HomeController_1.default.remove);
 exports.productRouter.get('/findById/:id', HomeController_1.default.findById);
+exports.productRouter.get('/getCategories', HomeController_1.default.getCategories);
 //# sourceMappingURL=product-router.js.map

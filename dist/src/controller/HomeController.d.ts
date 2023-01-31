@@ -10,6 +10,7 @@ declare class HomeController {
     update: (req: Request, res: Response) => Promise<void>;
     remove: (req: Request, res: Response) => Promise<void>;
     search: (req: Request, res: Response) => Promise<void>;
+    getCategories: (req: Request, res: Response) => Promise<void>;
 }
 declare const _default: HomeController;
 export default _default;

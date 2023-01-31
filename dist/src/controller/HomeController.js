@@ -47,6 +47,15 @@ class HomeController {
             let products = await ProductService_1.default.findByName(search);
             res.render('home', { products: products });
         };
+        this.getCategories = async (req, res) => {
+            try {
+                let categories = await CategoryService_1.default.getAll();
+                res.status(200).json(categories);
+            }
+            catch (e) {
+                res.status(500).json(e.message);
+            }
+        };
         this.productService = ProductService_1.default;
         this.categoryService = CategoryService_1.default;
         this.orderService = OrderService_1.default;

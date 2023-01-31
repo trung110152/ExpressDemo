@@ -16,6 +16,7 @@ function showList() {
             <td>${item.name}</td>
             <td>${item.price}</td>
             <td>${item.image}</td>
+            <td>${item.nameCategory}</td>
             <td><button onclick="remove(${item.id})">Delete</button></td>
             <td><button onclick="showFormEdit(${item.id})">Edit</button></td>
         </tr>`
@@ -26,12 +27,35 @@ function showList() {
 
 }
 
+function getCategoriesCreate() {
+    $.ajax({
+        type: 'GET',
+        url: 'http://localhost:3000/products/getCategories',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        success: (categories) => {
+            console.log(categories)
+            let Categories = ``;
+            for (const category of categories) {
+                Categories += `
+                    <option value=${category.id}>${category.name}</option>
+                `
+            }
+            $('#categoryAdd').html(Categories);
+        }
+    })
+}
+
 function showFormAdd() {
-    $('#body').html(`<input type="text" id="name" placeholder="Name">
-        <input type="text" id="price" placeholder="Price">
-        <input type="text" id="image" placeholder="Image">
-        <input type="text" id="category" placeholder="Category">
-        <button onclick="add()">Add</button>`)
+    $('#body').html(` <input type="text" id = "name" placeholder="name"> 
+             <input type="number" id = "price" placeholder="price"> 
+             <input type="text" id = "image" placeholder="image">
+             <select id="categoryAdd">
+             <option selected>Category</option>
+             </select>
+    <button onclick="add()">Add</button>`)
+    getCategoriesCreate();
 }
 
 function showHome() {
@@ -43,6 +67,7 @@ function showHome() {
             <td>Name</td>
             <td>Price</td>
             <td>Image</td>
+            <td>Category</td>
             <td colspan="2">Action</td>
         </tr>
         </thead>
@@ -57,7 +82,7 @@ function add() {
     let name = $('#name').val();
     let price = $('#price').val();
     let image = $('#image').val();
-    let category = $('#category').val();
+    let category = $('#categoryAdd').val();
     let product = {
         name: name,
         price: price,
