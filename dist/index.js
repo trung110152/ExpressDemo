@@ -10,10 +10,12 @@ const express_fileupload_1 = __importDefault(require("express-fileupload"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const express_session_1 = __importDefault(require("express-session"));
 const data_source_1 = require("./src/data-source");
+const cors_1 = __importDefault(require("cors"));
 const app = (0, express_1.default)();
 data_source_1.AppDataSource.initialize().then(() => {
     console.log('Connect database success!!!');
 });
+app.use((0, cors_1.default)());
 mongoose_1.default.set('strictQuery', true);
 app.set('views', './src/views');
 app.set('view engine', 'ejs');

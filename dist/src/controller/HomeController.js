@@ -8,54 +8,39 @@ const CategoryService_1 = __importDefault(require("../service/CategoryService"))
 const OrderService_1 = __importDefault(require("../service/OrderService"));
 class HomeController {
     constructor() {
-        this.showHome = async (req, res) => {
-            let products = await ProductService_1.default.getAll();
-            let order = await OrderService_1.default.findByStatus();
-            res.render('home', { products: products, idOrder: order.id });
+        this.getAll = async (req, res) => {
+            try {
+                let products = await ProductService_1.default.getAll();
+                res.status(200).json(products);
+            }
+            catch (e) {
+                res.status(500).json(e.message);
+            }
         };
-        this.showFormCreate = async (req, res) => {
-            let categories = await this.categoryService.getAll();
-            res.render('products/create', { categories: categories });
+        this.findById = async (req, res) => {
+            try {
+                let id = req.params.id;
+                let product = await ProductService_1.default.findById(id);
+                res.status(200).json(product);
+            }
+            catch (e) {
+                res.status(500).json(e.message);
+            }
         };
         this.create = async (req, res) => {
-            if (req.files) {
-                let image = req.files.image;
-                if ("mv" in image) {
-                    await image.mv('./public/storage/' + image.name);
-                    let product = req.body;
-                    product.image = '/storage/' + image.name;
-                    await ProductService_1.default.save(product);
-                    res.redirect(301, '/home');
-                }
-            }
-        };
-        this.showFormEdit = async (req, res) => {
-            let id = req.params.id;
-            let product = await this.productService.findById(id);
-            let categories = await this.categoryService.getAll();
-            res.render('products/edit', { product: product, categories: categories });
+            let newProduct = await ProductService_1.default.save(req.body);
+            res.status(200).json(newProduct);
         };
         this.update = async (req, res) => {
-            if (req.files) {
-                let image = req.files.image;
-                if ("mv" in image) {
-                    await image.mv('./public/storage/' + image.name);
-                    let id = req.params.id;
-                    let product = req.body;
-                    product.image = '/storage/' + image.name;
-                    await this.productService.update(id, product);
-                    res.redirect(301, '/home');
-                }
-            }
-        };
-        this.showFormDelete = async (req, res) => {
-            let idDelete = req.params.id;
-            res.render('products/delete', { idDelete: idDelete });
+            let id = req.params.id;
+            let newProduct = req.body;
+            let product = await this.productService.update(id, newProduct);
+            res.status(200).json('Success!');
         };
         this.remove = async (req, res) => {
             let id = req.params.id;
             await this.productService.remove(id);
-            res.redirect(301, '/home');
+            res.status(200).json('Success!');
         };
         this.search = async (req, res) => {
             let search = req.body;

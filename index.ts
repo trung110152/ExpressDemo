@@ -5,12 +5,13 @@ import fileUpload from 'express-fileupload';
 import  mongoose from "mongoose";
 import session from "express-session";
 import {AppDataSource} from "./src/data-source";
-
+import cors from 'cors';
 
 const app = express();
 AppDataSource.initialize().then(()=>{
     console.log('Connect database success!!!')
 })
+app.use(cors())
 mongoose.set('strictQuery', true);
 app.set('views', './src/views');
 app.set('view engine', 'ejs');

@@ -14,62 +14,42 @@ class HomeController {
 
     }
 
-    showHome = async (req: Request, res: Response) => {
-        let products = await productService.getAll();
-        // console.log(products)
-        let order = await orderService.findByStatus();
-        res.render('home', {products: products, idOrder: order.id})
+    getAll = async (req: Request, res: Response) => {
+        try{
+            let products = await productService.getAll();
+            res.status(200).json(products)
+        } catch (e) {
+            res.status(500).json(e.message)
+        }
     }
 
-    showFormCreate = async (req: Request, res: Response) => {
-        let categories = await this.categoryService.getAll();
-        res.render('products/create',{categories: categories});
+    findById = async (req: Request, res: Response) => {
+        try{
+            let id = req.params.id
+            let product = await productService.findById(id);
+            res.status(200).json(product)
+        } catch (e) {
+            res.status(500).json(e.message)
+        }
     }
 
     create = async (req: Request, res: Response) => {
-        if (req.files) {
-            let image = req.files.image;
-            if ("mv" in image) {
-                await image.mv('./public/storage/' + image.name)
-                let product = req.body;
-                product.image = '/storage/' + image.name;
-                await productService.save(product);
-                res.redirect(301, '/home');
-            }
-        }
+       let newProduct = await productService.save(req.body);
+       res.status(200).json(newProduct);
     }
 
-    showFormEdit = async (req: Request, res: Response) => {
-        let id = req.params.id;
-        let product = await this.productService.findById(id);
-        let categories = await this.categoryService.getAll();
-        // console.log(product)
-        res.render('products/edit', {product: product,categories: categories});
-
-    }
     update = async (req: Request, res: Response) => {
-        if (req.files) {
-            let image = req.files.image;
-            if ("mv" in image) {
-                await image.mv('./public/storage/' + image.name)
-                let id = req.params.id;
-                let product = req.body;
-                product.image = '/storage/' + image.name;
-                await this.productService.update(id, product);
-                res.redirect(301, '/home');
-            }
-        }
+        let id = req.params.id;
+        let newProduct = req.body;
+        let product = await this.productService.update(id, newProduct);
+        res.status(200).json('Success!')
     }
 
-    showFormDelete = async (req: Request, res: Response) => {
-        let idDelete = req.params.id;
-        res.render('products/delete', {idDelete: idDelete});
-    }
 
     remove = async (req: Request, res: Response) => {
         let id = req.params.id;
         await this.productService.remove(id);
-        res.redirect(301, '/home');
+        res.status(200).json('Success!')
 
     }
     search = async (req: Request, res: Response) => {
