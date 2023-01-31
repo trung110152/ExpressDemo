@@ -27,7 +27,7 @@ class ProductService {
             return product;
         };
         this.findByName = async (search) => {
-            let sql = `select p.id, p.name, p.price, p.image, c.id as idCategory, c.name as nameCategory from product p join category c on p.id = c.id where p.name like '%${search.search}%'`;
+            let sql = `select p.id, p.name, p.price, p.image, c.id as idCategory, c.name as nameCategory from product p join category c on p.category = c.id where p.name like '%${search}%'`;
             let products = await this.productRepository.query(sql);
             if (!products) {
                 return null;

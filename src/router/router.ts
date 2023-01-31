@@ -6,7 +6,6 @@ import {userRouter} from "./userRouter";
 
 export const router = Router();
 router.get('/home', homeController.getAll)
-router.post('/home',homeController.search)
 router.use('/products', productRouter);
 router.use('/users', userRouter);
 router.use('/orders', orderRouter);

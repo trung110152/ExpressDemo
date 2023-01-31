@@ -27,6 +27,7 @@ function showList() {
 
 }
 
+
 function getCategoriesCreate() {
     $.ajax({
         type: 'GET',
@@ -35,7 +36,7 @@ function getCategoriesCreate() {
             'Content-Type': 'application/json',
         },
         success: (categories) => {
-            console.log(categories)
+            // console.log(categories)
             let Categories = ``;
             for (const category of categories) {
                 Categories += `
@@ -162,6 +163,7 @@ function edit(id) {
         }
     })
 }
+
 function uploadImage(e) {
     let fbBucketName = 'images';
     let uploader = document.getElementById('uploader');
@@ -191,4 +193,47 @@ function uploadImage(e) {
             document.getElementById('imgDiv').innerHTML = `<img src="${downloadURL}" alt="">`
             localStorage.setItem('image', downloadURL);
         });
+}
+
+function searchProduct(value) {
+    let name = value.toLowerCase()
+    $.ajax({
+        type: 'GET',
+        url: `http://localhost:3000/products/search/findByName?name=${name}`,
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        data: JSON.stringify(name),
+        success: (products) => {
+            $("#body").html(`
+  <table class="table" border="1">
+  <thead>
+    <tr>
+      <th scope="col">id</th>
+      <th scope="col">name</th>
+      <th scope="col">price</th>
+      <th scope="col">image</th>
+      <th scope="col">Loại</th>
+      <th scope="col" colspan="2" style="text-align: center">Action</th>
+    </tr>
+  </thead>
+  <tbody id="tbody">
+  </tbody>
+</table>
+    `)
+            let html = ''
+            products.map(item => {
+                html += `<tr>
+            <td>${item.id}</td>
+            <td>${item.name}</td>
+            <td>${item.price}</td>
+            <td><img src="${item.image}" alt=""></td>
+            <td>${item.nameCategory}</td>
+            <td><button onclick="remove(${item.id})">Delete</button></td>
+            <td><button onclick="showFormEdit(${item.id})">Edit</button></td>                  
+                         </tr>`
+            })
+            $("#tbody").html(html)
+        }
+    })
 }

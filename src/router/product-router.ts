@@ -8,3 +8,4 @@ productRouter.put('/:id', homeController.update);
 productRouter.delete('/:id', homeController.remove);
 productRouter.get('/findById/:id', homeController.findById);
 productRouter.get('/getCategories', homeController.getCategories);
+productRouter.get('/search/findByName', homeController.search);

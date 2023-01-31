@@ -53,11 +53,14 @@ class HomeController {
 
     }
     search = async (req: Request, res: Response) => {
-        let search = req.body;
+        let search = req.query.name;
         // console.log(search)
         let products = await productService.findByName(search);
-        res.render('home', {products: products})
+        // console.log(products)
+        res.status(200).json(products)
     }
+
+
 
 
     getCategories = async (req: Request, res: Response) => {

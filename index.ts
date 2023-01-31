@@ -11,7 +11,7 @@ const app = express();
 AppDataSource.initialize().then(()=>{
     console.log('Connect database success!!!')
 })
-app.use(cors())
+app.use(cors());
 mongoose.set('strictQuery', true);
 app.set('views', './src/views');
 app.set('view engine', 'ejs');
