@@ -3,9 +3,9 @@ import homeController from "../controller/HomeController";
 import {productRouter} from "./product-router";
 import {orderRouter} from "./orderRouter";
 import {userRouter} from "./userRouter";
+import {auth} from "../../middleware/auth";
 
 export const router = Router();
-router.get('/home', homeController.getAll)
 router.use('/products', productRouter);
-router.use('/users', userRouter);
+router.use('/auth', userRouter);
 router.use('/orders', orderRouter);

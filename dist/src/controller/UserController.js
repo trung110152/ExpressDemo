@@ -12,15 +12,8 @@ class UserController {
             res.render('user/login');
         };
         this.login = async (req, res) => {
-            let user = await UserService_1.default.checkUser(req.body);
-            if (!user) {
-                res.redirect(301, '/users/login');
-            }
-            else {
-                req.session.User = user;
-                await OrderService_1.default.orderLoad();
-                res.redirect(301, '/home');
-            }
+            let response = await this.userService.checkUser(req.body);
+            res.status(200).json(response);
         };
         this.logout = async (req, res) => {
             await OrderService_1.default.updateOrderStatus();
@@ -32,9 +25,8 @@ class UserController {
             res.render('user/signup');
         };
         this.signup = async (req, res) => {
-            let user = req.body;
-            await UserService_1.default.save(user);
-            res.redirect(301, '/home');
+            let user = await this.userService.register(req.body);
+            res.status(201).json(user);
         };
         this.userService = UserService_1.default;
         this.orderService = OrderService_1.default;

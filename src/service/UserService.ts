@@ -1,11 +1,18 @@
 
 import {User} from "../model/user";
 import {AppDataSource} from "../data-source";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 class UserService {
     private userRepository;
     constructor() {
         this.userRepository = AppDataSource.getRepository(User)
+    }
+
+    register = async (user) =>{
+        user.password = await bcrypt.hash(user.password, 10);
+        return this.userRepository.save(user);
     }
 
     getAll = async () => {
@@ -14,11 +21,24 @@ class UserService {
     }
 
     checkUser = async (user)=> {
-        let userCheck = await this.userRepository.findOneBy({username : user.username, password: user.password} )
+        let userCheck = await this.userRepository.findOneBy({username : user.username} );
         if (!userCheck){
-            return null;
+            return 'Username is not existed';
         }
-        return userCheck;
+        let comparePassword = await bcrypt.compare(user.password, userCheck.password);
+        if(!comparePassword){
+            return 'Password is wrong';
+        } else {
+            let payload = {
+                username: userCheck.username,
+                idUser: userCheck.id
+            }
+            let secret = '123456';
+
+            return jwt.sign(payload, secret, {
+                expiresIn: 360000
+            })
+        }
     }
 
     save = async (user) => {

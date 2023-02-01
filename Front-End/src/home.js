@@ -1,11 +1,10 @@
-showHome();
-
 function showList() {
     $.ajax({
         type: 'GET',
         url: 'http://localhost:3000/products',
         headers: {
             'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + localStorage.getItem('token')
         },
         success: (products) => {
             console.log(products);
@@ -34,6 +33,7 @@ function getCategoriesCreate() {
         url: 'http://localhost:3000/products/getCategories',
         headers: {
             'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + localStorage.getItem('token')
         },
         success: (categories) => {
             // console.log(categories)
@@ -54,7 +54,7 @@ function showFormAdd() {
              <input type="file" id="fileButton" onchange="uploadImage(event)">
             <div id="imgDiv"></div>
              <select id="categoryAdd">
-             <option selected>Category</option>
+<!--             <option selected>Category</option>-->
              </select>
     <button onclick="add()">Add</button>`)
     getCategoriesCreate();
@@ -62,6 +62,11 @@ function showFormAdd() {
 
 function showHome() {
     $('#body').html(`
+    <button onclick="showFormAdd()">Add new</button>
+    <button onclick="showHome()">Home</button>
+    <button onclick="logout()">Logout</button>
+    <input type="search" id="search" placeholder="Enter name" onkeyup="searchProduct(this.value)">
+
     <table border="1">
         <thead>
         <tr>
@@ -96,6 +101,7 @@ function add() {
         url: 'http://localhost:3000/products',
         headers: {
             'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + localStorage.getItem('token')
         },
         data: JSON.stringify(product),
 
@@ -111,6 +117,7 @@ function remove(id) {
         url: `http://localhost:3000/products/${id}`,
         headers: {
             'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + localStorage.getItem('token')
         },
         success: () => {
             showHome();
@@ -124,6 +131,7 @@ function showFormEdit(id) {
         url: `http://localhost:3000/products/findById/${id}`,
         headers: {
             'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + localStorage.getItem('token')
         },
         success: (product) => {
             $('#body').html(`
@@ -155,6 +163,7 @@ function edit(id) {
         url: `http://localhost:3000/products/${id}`,
         headers: {
             'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + localStorage.getItem('token')
         },
         data: JSON.stringify(product),
 
@@ -202,6 +211,7 @@ function searchProduct(value) {
         url: `http://localhost:3000/products/search/findByName?name=${name}`,
         headers: {
             'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + localStorage.getItem('token')
         },
         data: JSON.stringify(name),
         success: (products) => {
@@ -209,11 +219,11 @@ function searchProduct(value) {
   <table class="table" border="1">
   <thead>
     <tr>
-      <th scope="col">id</th>
-      <th scope="col">name</th>
-      <th scope="col">price</th>
-      <th scope="col">image</th>
-      <th scope="col">Loại</th>
+      <th scope="col">Id</th>
+      <th scope="col">Name</th>
+      <th scope="col">Price</th>
+      <th scope="col">Image</th>
+      <th scope="col">Category</th>
       <th scope="col" colspan="2" style="text-align: center">Action</th>
     </tr>
   </thead>
@@ -234,6 +244,73 @@ function searchProduct(value) {
                          </tr>`
             })
             $("#tbody").html(html)
+        }
+    })
+}
+
+function showFormLogin() {
+    $('#body').html(` 
+             <input type="text" id = "username" placeholder="username"> 
+             <input type="password" id = "password" placeholder="password"> 
+             <button onclick="login()">Login</button>
+`)
+}
+
+function login() {
+    let username = $('#username').val();
+    let password = $('#password').val();
+
+    let user = {
+        username: username,
+        password: password
+    }
+    $.ajax({
+        type: 'POST',
+        url: `http://localhost:3000/auth/login`,
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        data: JSON.stringify(user),
+
+        success: (token) => {
+            localStorage.setItem('token', token);
+            showHome()
+        }
+    })
+}
+
+function logout() {
+    localStorage.clear();
+    showFormLogin();
+}
+
+function showFormRegister() {
+    $('#body').html(` 
+             <input type="text" id = "username" placeholder="username"> 
+             <input type="password" id = "password" placeholder="password"> 
+             <button onclick="signup()">Signup</button>
+`)
+}
+
+function signup() {
+    let username = $('#username').val();
+    let password = $('#password').val();
+
+    let user = {
+        username: username,
+        password: password
+    }
+    $.ajax({
+        type: 'POST',
+        url: `http://localhost:3000/auth/signup`,
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        data: JSON.stringify(user),
+
+        success: () => {
+
+            showFormLogin()
         }
     })
 }

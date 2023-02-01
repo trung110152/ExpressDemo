@@ -11,9 +11,13 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/bcrypt": "^5.0.0",
     "@types/express": "^4.17.15",
     "@types/express-fileupload": "^1.4.1",
     "@types/express-session": "^1.17.5",
+    "@types/jsonwebtoken": "^9.0.1",
+    "bcrypt": "^5.1.0",
+    "jsonwebtoken": "^9.0.0",
     "rimraf": "^3.0.2",
     "t": "^0.5.1",
     "tsc": "^2.0.4",
