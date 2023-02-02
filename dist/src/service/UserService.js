@@ -10,8 +10,12 @@ const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 class UserService {
     constructor() {
         this.register = async (user) => {
-            user.password = await bcrypt_1.default.hash(user.password, 10);
-            return this.userRepository.save(user);
+            let userCheck = await this.userRepository.findOneBy({ username: user.username });
+            if (!userCheck) {
+                user.password = await bcrypt_1.default.hash(user.password, 10);
+                return this.userRepository.save(user);
+            }
+            return 'Username registered';
         };
         this.getAll = async () => {
             let users = await this.userRepository.find();
@@ -29,12 +33,19 @@ class UserService {
             else {
                 let payload = {
                     username: userCheck.username,
-                    idUser: userCheck.id
+                    idUser: userCheck.id,
+                    role: userCheck.role
                 };
                 let secret = '123456';
-                return jsonwebtoken_1.default.sign(payload, secret, {
-                    expiresIn: 360000
-                });
+                let check = {
+                    username: userCheck.username,
+                    idUser: userCheck.id,
+                    role: userCheck.role,
+                    token: await jsonwebtoken_1.default.sign(payload, secret, {
+                        expiresIn: 360000
+                    })
+                };
+                return check;
             }
         };
         this.save = async (user) => {

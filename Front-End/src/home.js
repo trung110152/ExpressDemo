@@ -1,28 +1,52 @@
+showNav();
 function showList() {
-    $.ajax({
-        type: 'GET',
-        url: 'http://localhost:3000/products',
-        headers: {
-            'Content-Type': 'application/json',
-            Authorization: 'Bearer ' + localStorage.getItem('token')
-        },
-        success: (products) => {
-            console.log(products);
-            let html = '';
-            products.map(item => {
-                html += `<tr>
+    let token = localStorage.getItem('token')
+    if(token){
+        token = JSON.parse(token)
+        // console.log(token.role)
+        $.ajax({
+            type: 'GET',
+            url: 'http://localhost:3000/products',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: 'Bearer ' + token.token
+            },
+            success: (products) => {
+                // console.log(products);
+                let html = '';
+                if(token.role === 'admin'){
+                    products.map(item => {
+                        html += `<tr>
             <td>${item.id}</td>
             <td>${item.name}</td>
             <td>${item.price}</td>
-            <td><img src="${item.image}" alt=""></td>
+            <td><img style="height: 200px;width: 200px" src="${item.image}" alt=""></td>
             <td>${item.nameCategory}</td>
             <td><button onclick="remove(${item.id})">Delete</button></td>
             <td><button onclick="showFormEdit(${item.id})">Edit</button></td>
         </tr>`
-            })
-            $('#tbody').html(html)
-        }
-    })
+                    })
+                    $('#tbody').html(html)
+                }
+                else {
+                    products.map(item => {
+                        html += `<tr>
+            <td>${item.id}</td>
+            <td>${item.name}</td>
+            <td>${item.price}</td>
+            <td><img style="height: 200px;width: 200px" src="${item.image}" alt=""></td>
+            <td>${item.nameCategory}</td>
+            <td><button onclick="">Buy</button></td>
+          
+        </tr>`
+                    })
+                    $('#tbody').html(html)
+                }
+
+            }
+        })
+    }
+
 
 }
 
@@ -62,10 +86,6 @@ function showFormAdd() {
 
 function showHome() {
     $('#body').html(`
-    <button onclick="showFormAdd()">Add new</button>
-    <button onclick="showHome()">Home</button>
-    <button onclick="logout()">Logout</button>
-    <input type="search" id="search" placeholder="Enter name" onkeyup="searchProduct(this.value)">
 
     <table border="1">
         <thead>
@@ -83,6 +103,22 @@ function showHome() {
         </tbody>
     </table>`)
     showList();
+}
+function showNav() {
+    let token = localStorage.getItem('token');
+    if(token){
+        $('#nav').html(`
+    <button onclick="showFormAdd()">Add</button>
+    <button onclick="showHome()">Home</button>
+    <button onclick="logout()">logout</button>
+    <input type="search" id="search" placeholder="Enter name" onkeyup="searchProduct(this.value)">
+    `)
+    } else {
+        $('#nav').html(`
+    <button onclick="showFormLogin()">Login</button>
+    <button onclick="showFormRegister()">Register</button>
+    `)
+    }
 }
 
 function add() {
@@ -216,6 +252,7 @@ function searchProduct(value) {
         data: JSON.stringify(name),
         success: (products) => {
             $("#body").html(`
+  
   <table class="table" border="1">
   <thead>
     <tr>
@@ -237,7 +274,7 @@ function searchProduct(value) {
             <td>${item.id}</td>
             <td>${item.name}</td>
             <td>${item.price}</td>
-            <td><img src="${item.image}" alt=""></td>
+            <td><img style="width: 200px;height: 200px" src="${item.image}" alt=""></td>
             <td>${item.nameCategory}</td>
             <td><button onclick="remove(${item.id})">Delete</button></td>
             <td><button onclick="showFormEdit(${item.id})">Edit</button></td>                  
@@ -273,8 +310,10 @@ function login() {
         data: JSON.stringify(user),
 
         success: (token) => {
-            localStorage.setItem('token', token);
-            showHome()
+            localStorage.setItem('token', JSON.stringify(token));
+
+            showNav();
+            showHome();
         }
     })
 }
@@ -282,6 +321,7 @@ function login() {
 function logout() {
     localStorage.clear();
     showFormLogin();
+    showNav();
 }
 
 function showFormRegister() {
@@ -308,9 +348,13 @@ function signup() {
         },
         data: JSON.stringify(user),
 
-        success: () => {
+        success: (user) => {
+            if(user === 'Username registered'){
+                alert('Username registered')
+            }else {
+                showFormLogin()
+            }
 
-            showFormLogin()
         }
     })
 }

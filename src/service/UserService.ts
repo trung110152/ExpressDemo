@@ -11,8 +11,12 @@ class UserService {
     }
 
     register = async (user) =>{
-        user.password = await bcrypt.hash(user.password, 10);
-        return this.userRepository.save(user);
+        let userCheck = await this.userRepository.findOneBy({username: user.username})
+        if (!userCheck) {
+            user.password = await bcrypt.hash(user.password,10);
+            return this.userRepository.save(user);
+        }
+        return 'Username registered';
     }
 
     getAll = async () => {
@@ -31,13 +35,20 @@ class UserService {
         } else {
             let payload = {
                 username: userCheck.username,
-                idUser: userCheck.id
+                idUser: userCheck.id,
+                role: userCheck.role
             }
             let secret = '123456';
+            let check ={
+                username: userCheck.username,
+                idUser: userCheck.id,
+                role: userCheck.role,
+                token: await jwt.sign(payload, secret, {
+                    expiresIn: 360000
+                })
+            }
+            return check
 
-            return jwt.sign(payload, secret, {
-                expiresIn: 360000
-            })
         }
     }
 
